@@ -90,15 +90,22 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
-
+  {
+    "f-person/git-blame.nvim",
+    config = function()
+      vim.cmd "highlight default link gitblame SpecialComment"
+      vim.g.gitblame_enabled = 0
+    end
+  },
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   },
+  { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',          opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -113,16 +120,24 @@ require('lazy').setup({
       },
     },
   },
-
-  {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
+  --[[ {
+    'morhetz/gruvbox',
     config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
-  },
+      vim.cmd.colorscheme "gruvbox"
+    end
+  }, ]]
+  {
+    'projekt0n/github-nvim-theme',
+    version = 'v0.0.7',
+    -- or                            branch = '0.0.x'
+    config = function()
+      require('github-theme').setup({
+        -- ...
+      })
 
+      vim.cmd('colorscheme github_dark')
+    end
+  },
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -500,13 +515,22 @@ cmp.setup {
   },
 }
 
-require("toggleterm").setup{
+require("toggleterm").setup {
   open_mapping = [[<c-\>]],
   size = 40,
 }
 
+--[[ local format_sync_grp = vim.api.nvim_create_augroup("GoImport", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+   require('go.format').goimport()
+  end,
+  group = format_sync_grp,
+}) ]]
+--require("go").setup()
+
 -- golines configuration.
 vim.g.go_fmt_command = "golines"
-
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
