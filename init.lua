@@ -132,19 +132,7 @@ require('lazy').setup({
       require('nightfox').setup({})
       vim.cmd('colorscheme carbonfox')
     end
-  },
-  {
-    'projekt0n/github-nvim-theme',
-    version = 'v0.0.7',
-    -- or                            branch = '0.0.x'
-    config = function()
-      require('github-theme').setup({
-        -- ...
-      })
-
-      vim.cmd('colorscheme github_dark')
-    end
-  },
+  }, 
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
