@@ -127,6 +127,13 @@ require('lazy').setup({
     end
   }, ]]
   {
+    "EdenEast/nightfox.nvim",
+    config = function()
+      require('nightfox').setup({})
+      vim.cmd('colorscheme carbonfox')
+    end
+  },
+  {
     'projekt0n/github-nvim-theme',
     version = 'v0.0.7',
     -- or                            branch = '0.0.x'
@@ -311,7 +318,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'sql' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'sql' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
