@@ -146,6 +146,13 @@ require('lazy').setup({
     -- Theme inspired by Atom
     'navarasu/onedark.nvim',
     priority = 1000,
+    opts = {
+      transparent = true,
+      styles = {
+        sidebars = 'transparent',
+        floats = 'transparent',
+      },
+    },
     config = function()
       vim.cmd.colorscheme 'onedark'
     end,
@@ -538,6 +545,8 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+vim.cmd.highlight 'Normal ctermbg=0 guibg=None'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
