@@ -92,7 +92,9 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
-
+  {
+    'christoomey/vim-tmux-navigator',
+  },
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -108,10 +110,60 @@ require('lazy').setup({
       'rafamadriz/friendly-snippets',
     },
   },
-  { 'github/copilot.vim' },
+  {
+    "zbirenbaum/copilot.lua",
+    opts = {
+      event = "InsertEnter",
+    },
+    config = function()
+      require("copilot").setup({
+        panel = {
+          enabled = true,
+          auto_refresh = false,
+          keymap = {
+            jump_prev = "[[",
+            jump_next = "]]",
+            accept = "<CR>",
+            refresh = "gr",
+            open = "<M-CR>"
+          },
+          layout = {
+            position = "bottom", -- | top | left | right
+            ratio = 0.4
+          },
+        },
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          debounce = 75,
+          keymap = {
+            accept = "<Ctrl-l>",
+            accept_word = false,
+            accept_line = false,
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        },
+        filetypes = {
+          yaml = false,
+          markdown = false,
+          help = false,
+          gitcommit = false,
+          gitrebase = false,
+          hgcommit = false,
+          svn = false,
+          cvs = false,
+          ["."] = false,
+        },
+        copilot_node_command = 'node', -- Node.js version must be > 16.x
+        server_opts_overrides = {},
+      })
+    end,
+  },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -142,22 +194,14 @@ require('lazy').setup({
       end,
     },
   },
-
   {
-    'ellisonleao/gruvbox.nvim',
+    "catppuccin/nvim",
+    name = "catppuccin",
     priority = 1000,
-    opts = {
-      transparent = true,
-      styles = {
-        sidebars = 'transparent',
-        floats = 'transparent',
-      },
-    },
     config = function()
-      vim.cmd.colorscheme 'gruvbox'
-    end,
+      vim.cmd.colorscheme "catppuccin"
+    end
   },
-
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -175,10 +219,7 @@ require('lazy').setup({
     -- Add indentation guides even on blank lines
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false
-    }
+    opts = {}
   },
 
   -- "gc" to comment visual regions/lines
@@ -229,7 +270,7 @@ require('lazy').setup({
   {
     "AckslD/nvim-neoclip.lua",
     dependencies = {
-      {'nvim-telescope/telescope.nvim'},
+      { 'nvim-telescope/telescope.nvim' },
     },
     config = function()
       require('neoclip').setup()
@@ -581,6 +622,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
   group = format_sync_grp,
 })
+
 
 
 -- The line beneath this is called `modeline`. See `:help modeline`
