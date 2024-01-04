@@ -93,6 +93,12 @@ require('lazy').setup({
     },
   },
   {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function() vim.fn["mkdp#util#install"]() end,
+  },
+  {
     'christoomey/vim-tmux-navigator',
   },
   {
@@ -137,7 +143,7 @@ require('lazy').setup({
           auto_trigger = true,
           debounce = 75,
           keymap = {
-            accept = "<Ctrl-l>",
+            accept = "<M-9>",
             accept_word = false,
             accept_line = false,
             next = "<M-]>",
@@ -196,10 +202,9 @@ require('lazy').setup({
   },
   {
     "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
+    name="catppuccin",
     config = function()
-      vim.cmd.colorscheme "catppuccin"
+      vim.cmd("colorscheme catppuccin")
     end
   },
   {
@@ -521,12 +526,13 @@ end
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
+  clangd = {},
+  gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  tsserver = {},
+  html = { filetypes = { 'html', 'twig', 'hbs'} },
+  ruff_lsp = {},
 
   lua_ls = {
     Lua = {
@@ -623,6 +629,15 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = format_sync_grp,
 })
 
+local auto_format_grp = vim.api.nvim_create_augroup("AutoFormat", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.py",
+  callback = function()
+    vim.cmd("silent !ruff format %")
+    vim.cmd("edit!")
+  end,
+  group = auto_format_grp,
+})
 
 
 -- The line beneath this is called `modeline`. See `:help modeline`
