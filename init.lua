@@ -286,6 +286,12 @@ require('lazy').setup({
     },
   },
 
+  {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {},
+  },
+
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -592,10 +598,13 @@ require('lazy').setup({
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --  See `:help lsp-config` for information about keys and how to configure
+      -- TODO: Update to vim.lsp.config instead of require('lspconfig').setup for neovim 0.11+ API changes.
       local servers = {
-        -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
+        clangd = {},
+        gopls = {},
+        pyright = {},
+        ruff = {},
+        terraform = {},
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -617,6 +626,13 @@ require('lazy').setup({
         'emmylua_ls', -- Lua Language server
         'stylua', -- Used to format Lua code
         -- You can add other tools here that you want Mason to install
+        'pyright',
+        'ruff',
+        'yaml-language-server',
+        'json-lsp',
+        'prettier',
+        'gofumpt',
+        'golines',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -691,6 +707,8 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        -- NOTE: do not specify ruff here it will not format your code, rely on the ruff lsp to do this!
+        go = { 'gofumpt', 'golines' },
       },
     },
   },
@@ -852,7 +870,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     config = function()
-      local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python' }
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,
@@ -871,11 +889,11 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -906,6 +924,52 @@ require('lazy').setup({
       task = '📌',
       lazy = '💤 ',
     },
+  },
+})
+
+-- TODO: move these configs to a separate file eventually.
+-- Note: using vim 0.11+ API here for configuring the plugin.
+vim.lsp.config('typescript-tools', {
+  -- spawn additional tsserver instance to calculate diagnostics on it
+  separate_diagnostic_server = true,
+  -- "change"|"insert_leave" determine when the client asks the server about diagnostic
+  publish_diagnostic_on = 'insert_leave',
+  -- array of strings("fix_all"|"add_missing_imports"|"remove_unused"|
+  -- "remove_unused_imports"|"organize_imports") -- or string "all"
+  -- to include all supported code actions
+  -- specify commands exposed as code_actions
+  expose_as_code_action = {},
+  -- string|nil - specify a custom path to `tsserver.js` file, if this is nil or file under path
+  -- not exists then standard path resolution strategy is applied
+  tsserver_path = nil,
+  -- specify a list of plugins to load by tsserver, e.g., for support `styled-components`
+  -- (see 💅 `styled-components` support section)
+  tsserver_plugins = {},
+  -- this value is passed to: https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes
+  -- memory limit in megabytes or "auto"(basically no limit)
+  tsserver_max_memory = 'auto',
+  -- described below
+  tsserver_format_options = {},
+  tsserver_file_preferences = {},
+  -- locale of all tsserver messages, supported locales you can find here:
+  -- https://github.com/microsoft/TypeScript/blob/3c221fc086be52b19801f6e8d82596d04607ede6/src/compiler/utilitiesPublic.ts#L620
+  tsserver_locale = 'en',
+  -- mirror of VSCode's `typescript.suggest.completeFunctionCalls`
+  complete_function_calls = false,
+  include_completions_with_insert_text = true,
+  -- CodeLens
+  -- WARNING: Experimental feature also in VSCode, because it might hit performance of server.
+  -- possible values: ("off"|"all"|"implementations_only"|"references_only")
+  code_lens = 'off',
+  -- by default code lenses are displayed on all referencable values and for some of you it can
+  -- be too much this option reduce count of them by removing member references from lenses
+  disable_member_code_lens = true,
+  -- JSXCloseTag
+  -- WARNING: it is disabled by default (maybe you configuration or distro already uses nvim-ts-autotag,
+  -- that maybe have a conflict if enable this feature. )
+  jsx_close_tag = {
+    enable = false,
+    filetypes = { 'javascriptreact', 'typescriptreact' },
   },
 })
 
