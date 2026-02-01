@@ -605,6 +605,7 @@ require('lazy').setup({
         pyright = {},
         ruff = {},
         terraform = {},
+        biome = {},
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -633,6 +634,7 @@ require('lazy').setup({
         'prettier',
         'gofumpt',
         'golines',
+        'biome',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -685,6 +687,7 @@ require('lazy').setup({
       },
     },
     opts = {
+      log_level = vim.log.levels.DEBUG,
       notify_on_error = false,
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
@@ -709,6 +712,12 @@ require('lazy').setup({
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
         -- NOTE: do not specify ruff here it will not format your code, rely on the ruff lsp to do this!
         go = { 'gofumpt', 'golines' },
+        javascript = { 'biome' },
+        typescript = { 'biome' },
+        typescriptreact = { 'biome' },
+        javascriptreact = { 'biome' },
+        json = { 'biome' },
+        css = { 'biome' },
       },
     },
   },
