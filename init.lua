@@ -816,14 +816,12 @@ require('lazy').setup({
   },
 
   {
-    'tanvirtin/monokai.nvim',
-    name = 'monokai',
-    lazy = false,
+    'rose-pine/neovim',
+    name = 'rose-pine',
     priority = 1000,
     config = function()
-      require('monokai').setup {}
-
-      vim.cmd 'colorscheme monokai'
+      require('rose-pine').setup {}
+      vim.cmd 'colorscheme rose-pine'
     end,
   },
 
