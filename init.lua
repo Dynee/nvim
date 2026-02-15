@@ -292,6 +292,12 @@ require('lazy').setup({
     opts = {},
   },
 
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^7', -- Recommended
+    lazy = false, -- This plugin is already lazy
+  },
+
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -606,7 +612,6 @@ require('lazy').setup({
         ruff = {},
         terraform = {},
         biome = {},
-        -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
@@ -635,6 +640,8 @@ require('lazy').setup({
         'gofumpt',
         'golines',
         'biome',
+        'terraform',
+        'rust-analyzer',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -718,6 +725,10 @@ require('lazy').setup({
         javascriptreact = { 'biome' },
         json = { 'biome' },
         css = { 'biome' },
+        tf = { 'terraform_fmt' },
+        hcl = { 'terraform_fmt' },
+        terraform = { 'terraform_fmt' },
+        rust = { 'rustfmt' },
       },
     },
   },
@@ -867,7 +878,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     config = function()
-      local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python' }
+      local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python', 'rust' }
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,
