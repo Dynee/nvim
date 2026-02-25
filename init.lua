@@ -90,6 +90,8 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.filetype.add { extension = { templ = 'templ' } }
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
@@ -642,6 +644,7 @@ require('lazy').setup({
         'biome',
         'terraform',
         'rust-analyzer',
+        'templ',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -826,15 +829,7 @@ require('lazy').setup({
     },
   },
 
-  {
-    'rose-pine/neovim',
-    name = 'rose-pine',
-    priority = 1000,
-    config = function()
-      require('rose-pine').setup {}
-      vim.cmd 'colorscheme rose-pine'
-    end,
-  },
+  { 'savq/melange-nvim', lazy = false, priority = 1000, config = function() vim.cmd.colorscheme 'melange' end },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
