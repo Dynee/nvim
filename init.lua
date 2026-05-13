@@ -300,6 +300,13 @@ require('lazy').setup({
     lazy = false, -- This plugin is already lazy
   },
 
+  -- init.lua
+  {
+    'lukas-reineke/headlines.nvim',
+    dependencies = 'nvim-treesitter/nvim-treesitter',
+    config = true, -- or `opts = {}`
+  },
+
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -332,10 +339,10 @@ require('lazy').setup({
   },
 
   {
-    'kepano/flexoki-neovim',
+    'rebelot/kanagawa.nvim',
     lazy = false,
     priority = 1000,
-    config = function() vim.cmd.colorscheme 'flexoki-dark' end,
+    config = function() vim.cmd.colorscheme 'kanagawa' end,
   },
 
   -- { 'savq/melange-nvim', lazy = false, priority = 1000, config = function() vim.cmd.colorscheme 'melange' end },
@@ -789,6 +796,14 @@ require('lazy').setup({
         rust = { 'rustfmt' },
       },
     },
+  },
+
+  {
+    'iamcco/markdown-preview.nvim',
+    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+    build = ':call mkdp#util#install()',
+    init = function() vim.g.mkdp_filetypes = { 'markdown' } end,
+    ft = { 'markdown' },
   },
 
   { -- Autocompletion
