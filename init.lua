@@ -288,6 +288,21 @@ require('lazy').setup({
     },
   },
 
+  -- lazy.nvim
+  {
+    'GustavEikaas/easy-dotnet.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'folke/snacks.nvim' },
+    config = function() require('easy-dotnet').setup() end,
+  },
+
+  {
+    'nvim-java/nvim-java',
+    config = function()
+      require('java').setup()
+      vim.lsp.enable 'jdtls'
+    end,
+  },
+
   {
     'stevearc/oil.nvim',
     ---@module 'oil'
@@ -351,10 +366,10 @@ require('lazy').setup({
   },
 
   {
-    'rebelot/kanagawa.nvim',
+    'morhetz/gruvbox',
     lazy = false,
     priority = 1000,
-    config = function() vim.cmd.colorscheme 'kanagawa' end,
+    config = function() vim.cmd.colorscheme 'gruvbox' end,
   },
 
   -- { 'savq/melange-nvim', lazy = false, priority = 1000, config = function() vim.cmd.colorscheme 'melange' end },
@@ -642,6 +657,7 @@ require('lazy').setup({
         ruff = {},
         terraform = {},
         biome = {},
+        zls = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
@@ -673,6 +689,7 @@ require('lazy').setup({
         'terraform',
         'rust-analyzer',
         'templ',
+        'jdtls',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -1055,6 +1072,9 @@ vim.lsp.config('typescript-tools', {
     filetypes = { 'javascriptreact', 'typescriptreact' },
   },
 })
+
+vim.lsp.enable 'angularls'
+vim.lsp.enable 'ansiblels'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
