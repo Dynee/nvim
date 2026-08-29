@@ -316,12 +316,6 @@ require('lazy').setup({
   },
 
   {
-    'pmizio/typescript-tools.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    opts = {},
-  },
-
-  {
     'mrcjkb/rustaceanvim',
     version = '^7', -- Recommended
     lazy = false, -- This plugin is already lazy
@@ -366,10 +360,10 @@ require('lazy').setup({
   },
 
   {
-    'morhetz/gruvbox',
+    'mofiqul/vscode.nvim',
     lazy = false,
     priority = 1000,
-    config = function() vim.cmd.colorscheme 'gruvbox' end,
+    config = function() vim.cmd.colorscheme 'vscode' end,
   },
 
   -- { 'savq/melange-nvim', lazy = false, priority = 1000, config = function() vim.cmd.colorscheme 'melange' end },
@@ -663,7 +657,6 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -726,52 +719,6 @@ require('lazy').setup({
         },
       })
       vim.lsp.enable 'emmylua_ls'
-
-      vim.lsp.config('typescript-tools', {
-        settings = {
-          -- spawn additional tsserver instance to calculate diagnostics on it
-          separate_diagnostic_server = true,
-          -- "change"|"insert_leave" determine when the client asks the server about diagnostic
-          publish_diagnostic_on = 'insert_leave',
-          -- array of strings("fix_all"|"add_missing_imports"|"remove_unused"|
-          -- "remove_unused_imports"|"organize_imports") -- or string "all"
-          -- to include all supported code actions
-          -- specify commands exposed as code_actions
-          expose_as_code_action = {},
-          -- string|nil - specify a custom path to `tsserver.js` file, if this is nil or file under path
-          -- not exists then standard path resolution strategy is applied
-          tsserver_path = nil,
-          -- specify a list of plugins to load by tsserver, e.g., for support `styled-components`
-          -- (see 💅 `styled-components` support section)
-          tsserver_plugins = {},
-          -- this value is passed to: https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes
-          -- memory limit in megabytes or "auto"(basically no limit)
-          tsserver_max_memory = 'auto',
-          -- described below
-          tsserver_format_options = {},
-          tsserver_file_preferences = {},
-          -- locale of all tsserver messages, supported locales you can find here:
-          -- https://github.com/microsoft/TypeScript/blob/3c221fc086be52b19801f6e8d82596d04607ede6/src/compiler/utilitiesPublic.ts#L620
-          tsserver_locale = 'en',
-          -- mirror of VSCode's `typescript.suggest.completeFunctionCalls`
-          complete_function_calls = false,
-          include_completions_with_insert_text = true,
-          -- CodeLens
-          -- WARNING: Experimental feature also in VSCode, because it might hit performance of server.
-          -- possible values: ("off"|"all"|"implementations_only"|"references_only")
-          code_lens = 'off',
-          -- by default code lenses are displayed on all referencable values and for some of you it can
-          -- be too much this option reduce count of them by removing member references from lenses
-          disable_member_code_lens = true,
-          -- JSXCloseTag
-          -- WARNING: it is disabled by default (maybe you configuration or distro already uses nvim-ts-autotag,
-          -- that maybe have a conflict if enable this feature. )
-          jsx_close_tag = {
-            enable = false,
-            filetypes = { 'javascriptreact', 'typescriptreact' },
-          },
-        },
-      })
     end,
   },
 
@@ -1073,8 +1020,54 @@ vim.lsp.config('typescript-tools', {
   },
 })
 
-vim.lsp.enable 'angularls'
+vim.o.background = 'dark'
+
+local c = require('vscode.colors').get_colors()
+require('vscode').setup {
+  -- Alternatively set style in setup
+  -- style = 'light'
+
+  -- Enable transparent background
+  transparent = true,
+
+  -- Enable italic comment
+  italic_comments = true,
+
+  -- Enable italic inlay type hints
+  italic_inlayhints = true,
+
+  -- Underline `@markup.link.*` variants
+  underline_links = true,
+
+  -- Disable nvim-tree background color
+  disable_nvimtree_bg = true,
+
+  -- Apply theme colors to terminal
+  terminal_colors = true,
+
+  -- Override colors (see ./lua/vscode/colors.lua)
+  color_overrides = {
+    vscLineNumber = '#FFFFFF',
+  },
+
+  -- Override highlight groups (see ./lua/vscode/theme.lua)
+  group_overrides = {
+    -- this supports the same val table as vim.api.nvim_set_hl
+    -- use colors from this colorscheme by requiring vscode.colors!
+    Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
+  },
+}
+
+--vim.o.background = 'dark' vim.lsp.enable 'angularls'
 vim.lsp.enable 'ansiblels'
+
+vim.lsp.config('ts7', {
+  cmd = { 'tsc', '--lsp', '--stdio' },
+  filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx', 'javascript', 'javascriptreact' },
+  root_markers = { 'tsconfig.json', 'package.json', '.git' },
+  capabilities = require('blink.cmp').get_lsp_capabilities(),
+})
+vim.lsp.enable 'ts7'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
