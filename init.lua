@@ -1059,7 +1059,6 @@ require('vscode').setup {
 }
 
 --vim.o.background = 'dark' vim.lsp.enable 'angularls'
-vim.lsp.enable 'ansiblels'
 
 vim.lsp.config('ts7', {
   cmd = { 'tsc', '--lsp', '--stdio' },
