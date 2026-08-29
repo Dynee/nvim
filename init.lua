@@ -1067,6 +1067,7 @@ vim.lsp.config('ts7', {
   capabilities = require('blink.cmp').get_lsp_capabilities(),
 })
 vim.lsp.enable 'ts7'
+vim.lsp.enable 'ansiblels'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
