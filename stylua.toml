@@ -1,0 +1,30 @@
+# Target Lua language version or dialect. Options: "All", "Lua51", "Lua52", "Lua53", "Lua54", "LuaJIT", "Luau"
+syntax = "All"
+
+# Approximate line length used as a guide for line wrapping (not a hard limit)
+column_width = 120
+
+# Type of line endings to enforce. Options: "Unix" (LF) or "Windows" (CRLF)
+line_endings = "Unix"
+
+# Type of indentation. Options: "Tabs" or "Spaces"
+indent_type = "Spaces"
+
+# Number of spaces per indent level (used as a width heuristic if indent_type is "Tabs")
+indent_width = 2
+
+# Policy for string quotes. Options: "AutoPreferDouble", "AutoPreferSingle", "ForceDouble", "ForceSingle"
+quote_style = "AutoPreferDouble"
+
+# Enforce parentheses for functions with single string/table args. Options: "Always", "NoSingleString", "NoSingleTable", "None", "Input"
+call_parentheses = "Always"
+
+# Force a space between function names and their parentheses. Options: "Never", "Always"
+space_after_function_names = "Never"
+
+# Control whether to collapse short statement blocks into a single line. Options: "Never", "FunctionOnly", "ConditionalOnly", "Always"
+collapse_simple_statement = "Never"
+
+# Configuration for sorting 'require' statements
+[sort_requires]
+enabled = false
