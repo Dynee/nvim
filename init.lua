@@ -187,3 +187,12 @@ require("lualine").setup({
   inactive_winbar = {},
   extensions = {},
 })
+
+-- LSP
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
+vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+vim.lsp.config("lua_ls", {})
