@@ -31,6 +31,8 @@ if packs_ready then
     formatters_by_ft = {
       lua = { "stylua" },
       python = { "isort", "black" },
+      cpp = { "clang_format" },
+      ruby = { "rubocop" },
       rust = { "rustfmt", lsp_format = "fallback" },
       javascript = { "prettierd", "prettier", stop_after_first = true },
     },
@@ -181,6 +183,7 @@ if packs_ready then
   end, { desc = "Buffer Local Keymaps (which-key)" })
 
   -- Trouble
+  require("trouble").setup({})
   vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics (Trouble)" })
   vim.keymap.set("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Buffer Diagnostics (Trouble)" })
   vim.keymap.set("n", "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", { desc = "Symbols (Trouble)" })
