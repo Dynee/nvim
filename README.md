@@ -12,28 +12,45 @@ Requires Neovim 0.12+.
 
 ```
 ~/.config/nvim/
-├── init.lua              # Entry point: options, keymaps, plugin setup
-└── lua/config/
-    ├── pack.lua          # Package declarations (vim.pack)
-    ├── lsp.lua           # LSP server configuration
-    ├── cmp.lua           # Completion setup
-    └── treesitter.lua    # Treesitter configuration
+├── init.lua              # Entry point: options and keymaps
+└── lua/
+    ├── config/
+    │   ├── pack.lua          # lazy.nvim bootstrap
+    │   ├── lsp.lua           # LSP server configuration
+    │   ├── cmp.lua           # Completion setup
+    │   └── treesitter.lua    # Treesitter configuration
+    └── plugins/
+        ├── colorscheme.lua   # gruvbox + solarized
+        ├── conform.lua       # Formatting
+        ├── cmp.lua           # Completion engine and sources
+        ├── gitsigns.lua      # Git hunk indicators and blame
+        ├── lsp.lua           # LSP plugins
+        ├── lualine.lua       # Statusline
+        ├── telescope.lua     # Fuzzy finder
+        ├── treesitter.lua    # Syntax highlighting
+        ├── trouble.lua       # Diagnostics list
+        ├── typescript-tools.lua # TypeScript LSP
+        └── which-key.lua     # Keymap hints
 ```
 
 ## Package Management
 
-This config uses `vim.pack`, Neovim 0.12's built-in package manager. All packages are declared in `lua/config/pack.lua`:
+This config uses [lazy.nvim](https://github.com/folke/lazy.nvim). On first launch it auto-installs itself and all plugins — no restart needed.
+
+Each plugin has its own spec file under `lua/plugins/`. To add a new plugin, create a file there returning a lazy.nvim spec table:
 
 ```lua
-vim.pack.add({
-  "https://github.com/some/plugin",
-  { src = "https://github.com/some/plugin-with-build", build = ":SomeCommand" },
-}, { confirm = false })
+return {
+  {
+    "author/plugin-name",
+    config = function()
+      require("plugin-name").setup({})
+    end,
+  },
+}
 ```
 
-On first launch, packages download in the background — restart Neovim once the install completes before plugin setup runs.
-
-To add a new plugin, add its URL to the `vim.pack.add` call in `lua/config/pack.lua`, then configure it in `init.lua`.
+Run `:Lazy` to open the plugin manager UI.
 
 ## Plugins
 
@@ -59,3 +76,5 @@ To add a new plugin, add its URL to the `vim.pack.add` call in `lua/config/pack.
 | [conform.nvim](https://github.com/stevearc/conform.nvim) | Formatting |
 | [trouble.nvim](https://github.com/folke/trouble.nvim) | Diagnostics list |
 | [which-key.nvim](https://github.com/folke/which-key.nvim) | Keymap hints |
+| [typescript-tools.nvim](https://github.com/pmizio/typescript-tools.nvim) | TypeScript LSP |
+| [solarized.nvim](https://github.com/maxmx03/solarized.nvim) | Colorscheme |
