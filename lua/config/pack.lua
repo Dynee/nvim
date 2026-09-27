@@ -19,4 +19,5 @@ vim.pack.add({
   "https://github.com/stevearc/conform.nvim",
   "https://github.com/folke/trouble.nvim",
   "https://github.com/folke/which-key.nvim",
+  "https://github.com/maxmx03/solarized.nvim",
 }, { confirm = false })

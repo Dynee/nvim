@@ -51,8 +51,12 @@ if packs_ready then
   vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
 
   -- Colorscheme
-  require("gruvbox").setup({})
-  vim.cmd.colorscheme("gruvbox")
+  -- require("gruvbox").setup({})
+  -- vim.cmd.colorscheme("gruvbox")
+
+  vim.o.background = "dark"
+  require("solarized").setup({})
+  vim.cmd.colorscheme("solarized")
 
   -- Gitsigns
   require("gitsigns").setup({
