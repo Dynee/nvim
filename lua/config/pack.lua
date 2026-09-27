@@ -1,23 +1,14 @@
-vim.pack.add({
-  "https://github.com/ellisonleao/gruvbox.nvim",
-  "https://github.com/nvim-lualine/lualine.nvim",
-  "https://github.com/nvim-tree/nvim-web-devicons",
-  "https://github.com/lewis6991/gitsigns.nvim",
-  "https://github.com/neovim/nvim-lspconfig",
-  "https://github.com/folke/lazydev.nvim",
-  "https://github.com/hrsh7th/nvim-cmp",
-  "https://github.com/hrsh7th/cmp-nvim-lsp",
-  "https://github.com/hrsh7th/cmp-buffer",
-  "https://github.com/hrsh7th/cmp-path",
-  "https://github.com/hrsh7th/cmp-cmdline",
-  "https://github.com/L3MON4D3/LuaSnip",
-  "https://github.com/saadparwaiz1/cmp_luasnip",
-  { src = "https://github.com/nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-  "https://github.com/nvim-lua/plenary.nvim",
-  "https://github.com/nvim-telescope/telescope.nvim",
-  { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-  "https://github.com/stevearc/conform.nvim",
-  "https://github.com/folke/trouble.nvim",
-  "https://github.com/folke/which-key.nvim",
-  "https://github.com/maxmx03/solarized.nvim",
-}, { confirm = false })
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.uv.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({ import = "plugins" })
