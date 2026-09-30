@@ -2,10 +2,12 @@ return {
   { "ellisonleao/gruvbox.nvim" },
   {
     "maxmx03/solarized.nvim",
+  },
+  {
+    "rose-pine/neovim",
     config = function()
-      vim.o.background = "dark"
-      require("solarized").setup({})
-      vim.cmd.colorscheme("solarized")
+      require("rose-pine").setup({})
+      vim.cmd.colorscheme("rose-pine")
     end,
   },
 }
