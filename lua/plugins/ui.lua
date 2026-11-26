@@ -1,14 +1,32 @@
 return {
   {
-    "marko-cerovac/material.nvim",
+    -- Full treesitter + LSP semantic-token coverage, so JSX/TSX (components,
+    -- props, tag delimiters, types) gets distinct colors. Styles: night | moon | storm
+    "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-      vim.g.material_style = "palenight"
-      require("material").setup({
-        plugins = { "neo-tree", "nvim-web-devicons", "telescope", "which-key", "rainbow-delimiters", "neogit", "dap", "gitsigns" },
+      require("tokyonight").setup({
+        style = "moon",
+        -- Let Ghostty's background-opacity (0.9, same as Emacs) show through
+        transparent = true,
+        styles = {
+          comments = { italic = true },
+          keywords = { italic = true },
+          sidebars = "transparent",
+          floats = "transparent",
+        },
+        on_highlights = function(hl, c)
+          -- React: make components stand out from plain HTML tags,
+          -- and keep </> brackets subtle so the markup reads cleanly
+          hl["@tag.builtin.tsx"] = { fg = c.red }
+          hl["@tag.tsx"] = { fg = c.blue1 }
+          hl["@tag.delimiter.tsx"] = { fg = c.fg_dark }
+          hl["@tag.attribute.tsx"] = { fg = c.green1, italic = true }
+          hl["@constructor.tsx"] = { fg = c.blue1 }
+        end,
       })
-      vim.cmd.colorscheme("material")
+      vim.cmd.colorscheme("tokyonight")
     end,
   },
 
