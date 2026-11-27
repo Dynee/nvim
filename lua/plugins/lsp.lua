@@ -58,6 +58,32 @@ return {
         },
       })
 
+      -- C#: OmniSharp intermittently sends bare `null` JSON-RPC bodies (right after its
+      -- o#/*diagnosticstatus notifications). Neovim 0.12 treats that as INVALID_SERVER_MESSAGE
+      -- and kills the client, so drop those bodies for this server only.
+      vim.lsp.config("omnisharp", {
+        cmd = function(dispatchers, config)
+          local rpc = vim.lsp.rpc
+          local orig = rpc.create_read_loop
+          rpc.create_read_loop = function(handle_body, ...)
+            return orig(function(body)
+              if body ~= "null" then handle_body(body) end
+            end, ...)
+          end
+          local ok, client = pcall(rpc.start, {
+            vim.fn.executable("OmniSharp") == 1 and "OmniSharp" or "omnisharp",
+            "-z",
+            "--hostPID", tostring(vim.fn.getpid()),
+            "DotNet:enablePackageRestore=false",
+            "--encoding", "utf-8",
+            "--languageserver",
+          }, dispatchers, { cwd = config.root_dir })
+          rpc.create_read_loop = orig -- read loop is created synchronously inside start()
+          if not ok then error(client) end
+          return client
+        end,
+      })
+
       vim.lsp.config("html", { filetypes = { "html", "htmlangular" } })
 
       vim.lsp.config("jsonls", {
