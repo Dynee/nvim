@@ -11,7 +11,9 @@ local servers = {
   { "pyright", "pyright" },                                     -- Python
   { "ruff", "ruff", have("python3") or have("python") },        -- Python lint/format
   { "gopls", "gopls", have("go") },                             -- Go
-  { "omnisharp", "omnisharp", have("dotnet") },                 -- C#
+  -- C#: pinned because mason-registry's v2.0.0 entry points at the old "-net6.0" asset names (404).
+  -- Unpin once https://github.com/mason-org/mason-registry/blob/main/packages/omnisharp/package.yaml is fixed.
+  { "omnisharp", { "omnisharp", version = "v1.39.15" }, have("dotnet") },
   { "vtsls", "vtsls" },                                         -- TS / JS / React (+ Vue via plugin)
   { "eslint", "eslint-lsp" },                                   -- JS/TS linting
   { "svelte", "svelte-language-server" },                       -- Svelte

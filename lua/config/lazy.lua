@@ -7,7 +7,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = { { import = "plugins" } },
-  install = { colorscheme = { "material" } },
+  install = { colorscheme = { "tokyonight" } },
   checker = { enabled = true, notify = true, frequency = 7 * 24 * 3600 },
   change_detection = { notify = false },
 })
