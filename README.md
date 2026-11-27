@@ -9,7 +9,7 @@ A Neovim config built with [lazy.nvim](https://github.com/folke/lazy.nvim). It i
 - **Files:** oil.nvim and neo-tree
 - **Git:** Neogit and gitsigns
 - **Debugging:** nvim-dap, for Python and Node
-- **Theme:** material (palenight)
+- **Theme:** tokyonight (night), recolored to the CachyOS `cachyos-nord` palette
 
 ## Requirements
 
